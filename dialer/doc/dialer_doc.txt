@@ -1,0 +1,46 @@
+﻿Socket Server (dialer) Documentation
+
+
+Code explanation
+
+
+
+start_server  opens a listen socket spawns an acceptor and then just idles forever. The idling is necessary because the listen socket is bound to the process that opened it, so that one needs to remain alive as long as we want to handle connections. Each acceptor process waits for a connection to accept.
+
+You can start server on any port. To do it use dialer:start_server(Port)
+or dialer:start_server w/o any arguments to start server on default port 8091
+
+
+On 11 string specified that program:
+
+1. receive binary data and receive them how messages cause of {active, false}
+2. receive a 2-byte service packet cause of {packet, 2}
+
+
+
+
+
+
+Once one connection comes in, the acceptor process starts a new similar process and shares the listen socket to it.
+
+
+
+
+
+
+
+
+
+
+In order for the server to work in passive mode, the gen_tcp:recv() function is used
+
+Length = 0 is specified. gen_tcp itself knows how many bytes need to be read from the socket.
+
+
+
+Example of session
+3> dialer:start_server().
+{ok,<0.92.0>}
+Socket got message: <<"Hello">>
+4> 
+
